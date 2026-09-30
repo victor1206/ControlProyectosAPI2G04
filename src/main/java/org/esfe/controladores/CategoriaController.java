@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class CategoriaController {
     @Autowired
     private ICategoriaService categoriaService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public ResponseEntity<Page<CategoriaSalida>> mostrarTodosPaginados(Pageable pageable)
     {
@@ -28,6 +30,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/lista")
     public ResponseEntity<List<CategoriaSalida>> mostrarTodos()
     {
@@ -38,6 +41,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaSalida> buscarPorId(@PathVariable Integer id)
     {
@@ -49,6 +53,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<CategoriaSalida> crear(@RequestBody CategoriaGuardar categoriaGuardar)
     {
@@ -56,6 +61,7 @@ public class CategoriaController {
         return ResponseEntity.ok(categoria);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaSalida> editar(@PathVariable Integer id,
                                                   @RequestBody CategoriaModificar categoriaModificar)
@@ -67,6 +73,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity eliminar(@PathVariable Integer id)
     {
